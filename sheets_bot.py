@@ -3,6 +3,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.discovery import Resource
 import util
+import datetime
 
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
@@ -48,6 +49,7 @@ class SheetsProxy(object):
 def add_answer(sheet_id: str, answer: dict) -> None:
     proxy = SheetsProxy(sheet_id)
     header = check_has_header(proxy)
+    answer["date"] = str(datetime.datetime.now().strftime("%d.%m.%Y %H:%M"))
     if (not header):
         header = list(answer.keys())
         range = f"A1:{util.num_to_char(len(header))}1"
